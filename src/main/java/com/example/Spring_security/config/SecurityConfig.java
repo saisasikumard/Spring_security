@@ -46,7 +46,7 @@ public class SecurityConfig {
                 (       authorize -> authorize
                         .requestMatchers("/public/**").permitAll()
                         .requestMatchers("/student/**")
-                        .hasRole("STUDENT")
+                        .hasAnyRole("STUDENT","ADMIN")
                         .requestMatchers("/admin/**")
                         .hasRole("ADMIN")
                         .anyRequest().authenticated()              // All other requests need authentication
