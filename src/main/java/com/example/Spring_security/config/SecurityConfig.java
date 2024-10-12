@@ -3,6 +3,8 @@ package com.example.Spring_security.config;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,18 +28,18 @@ public class SecurityConfig {
     }
     @Bean
     public UserDetailsService userDetailsService(){
-        UserDetails student= User.builder()
-                                .username("Sai")
-                                .password(getPasswordEncoder().encode("Sai@123"))
-                                .roles("STUDENT")
-                                .build();
-        UserDetails admin= User.builder()
-                .username("Sasi")
-                .password(getPasswordEncoder().encode("Sasi@123"))
-                .roles("ADMIN")
-                .build();
-        return new InMemoryUserDetailsManager(student,admin);
-
+//        UserDetails student= User.builder()
+//                                .username("Sai")
+//                                .password(getPasswordEncoder().encode("Sai@123"))
+//                                .roles("STUDENT")
+//                                .build();
+//        UserDetails admin= User.builder()
+//                .username("Sasi")
+//                .password(getPasswordEncoder().encode("Sasi@123"))
+//                .roles("ADMIN")
+//                .build();
+//        return new InMemoryUserDetailsManager(student,admin);
+        return new CustomeUserDetailsService();
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -58,5 +60,12 @@ public class SecurityConfig {
                 )
                 .formLogin(Customizer.withDefaults());  // Default form login
         return http.build();
+    }
+    @Bean
+    public AuthenticationProvider getAuthenticatorProvider(){
+        DaoAuthenticationProvider daoAuthenticationProvider=new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService());
+        daoAuthenticationProvider.setPasswordEncoder(getPasswordEncoder());
+        return daoAuthenticationProvider;
     }
 }
