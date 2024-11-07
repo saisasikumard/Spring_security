@@ -13,6 +13,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level=AccessLevel.PRIVATE)
 @Entity
 public class Person {
+	System.out.println("hiii");
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
