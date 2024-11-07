@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
     @GetMapping("/welcome")
     public String welcom(){
+	System.out.println("hello world");
         return "Welcome to Admin place..";
     }
 }
